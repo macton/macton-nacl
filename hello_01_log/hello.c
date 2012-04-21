@@ -1,4 +1,3 @@
-
 #include <assert.h>
 #include <pthread.h>
 #include <stdio.h>
@@ -22,35 +21,36 @@
 #include "ppapi/c/ppb_messaging.h"
 #include "ppapi/c/ppb_var.h"
 
-// PP_Var is not typedef'd
+// PP_Var is not typedef'd?
 typedef struct PP_Var PP_Var;
 
 // PPAPI Interfaces
-const PPB_Core*      PPBCore      = NULL;
-const PPB_Instance*  PPBInstance  = NULL;
-const PPB_Messaging* PPBMessaging = NULL;
-const PPB_Var*       PPBVar       = NULL;
+const PPB_Core*      g_NaclCore      = NULL;
+const PPB_Instance*  g_NaclInstance  = NULL;
+const PPB_Messaging* g_NaclMessaging = NULL;
+const PPB_Var*       g_NaclVar       = NULL;
 
-const int kInvalidInstance = 0;
-const int kInvalidResource = 0;
+// App globals
 
-struct InstanceInfo 
+enum
 {
-  PPB_GetInterface browser_interface;
-  PP_Instance      instance_id;
+  kInvalidInstance = 0,
 };
 
-typedef struct InstanceInfo InstanceInfo;
+PP_Instance g_InstanceId = kInvalidInstance;
 
-InstanceInfo global;
 
 // Helper -------------------------------------------------------------------
+// Also see: Yuriy O'Donnell's ArcadeShooter NaCl Postmortem
+//     http://www.kayru.org/articles/arcadeshooter-nacl-postmortem/
+//     http://www.kayru.org/articles/arcadeshooter-nacl-postmortem/index.html.txt
+//     http://www.kayru.org/articles/arcadeshooter-nacl-postmortem/minimal_nacl_gles2.cpp.txt
 
 void nacl_log_message(const char* msg)
 {
-  PP_Var msg_var = PPBVar->VarFromUtf8( msg, strlen(msg) );
-  PPBMessaging->PostMessage(global.instance_id, msg_var);
-  PPBVar->Release(msg_var);
+  PP_Var msg_var = g_NaclVar->VarFromUtf8( msg, strlen(msg) );
+  g_NaclMessaging->PostMessage(g_InstanceId, msg_var);
+  g_NaclVar->Release(msg_var);
 }
 
 // Instance entrypoints ------------------------------------------------------
@@ -58,9 +58,9 @@ void nacl_log_message(const char* msg)
 PP_Bool Instance_DidCreate(PP_Instance instance_id, uint32_t argc, const char* argn[], const char* argv[]) 
 {
   // Only allow one instance.
-  assert(global.instance_id == kInvalidInstance);
+  assert(g_InstanceId == kInvalidInstance);
 
-  global.instance_id   = instance_id;
+  g_InstanceId   = instance_id;
 
   nacl_log_message("Instance_DidCreate");
 
@@ -69,9 +69,9 @@ PP_Bool Instance_DidCreate(PP_Instance instance_id, uint32_t argc, const char* a
 
 void Instance_DidDestroy(PP_Instance instance_id) 
 {
-  assert(instance_id == global.instance_id);
+  assert(instance_id == g_InstanceId);
 
-  global.instance_id = kInvalidInstance;
+  g_InstanceId = kInvalidInstance;
 
   nacl_log_message("Instance_DidDestroy");
 }
@@ -101,22 +101,17 @@ PP_EXPORT int32_t PPP_InitializeModule(PP_Module module, PPB_GetInterface get_br
     return -1;
   }
 
-  memset(&global, 0, sizeof(global));
+  g_InstanceId    = kInvalidInstance;
 
-  global.instance_id       = kInvalidInstance;
-  global.browser_interface = get_browser_interface;
+  g_NaclCore      = (const PPB_Core*)      get_browser_interface(PPB_CORE_INTERFACE);
+  g_NaclInstance  = (const PPB_Instance*)  get_browser_interface(PPB_INSTANCE_INTERFACE);
+  g_NaclMessaging = (const PPB_Messaging*) get_browser_interface(PPB_MESSAGING_INTERFACE);
+  g_NaclVar       = (const PPB_Var*)       get_browser_interface(PPB_VAR_INTERFACE);
 
-  PPBCore      = (const PPB_Core*)      get_browser_interface(PPB_CORE_INTERFACE);
-  PPBInstance  = (const PPB_Instance*)  get_browser_interface(PPB_INSTANCE_INTERFACE);
-  PPBMessaging = (const PPB_Messaging*) get_browser_interface(PPB_MESSAGING_INTERFACE);
-  PPBVar       = (const PPB_Var*)       get_browser_interface(PPB_VAR_INTERFACE);
-
-  if (!PPBCore || !PPBInstance || !PPBMessaging | !PPBVar)
+  if (!g_NaclCore || !g_NaclInstance || !g_NaclMessaging | !g_NaclVar)
   {
     return -1;
   }
-
-  nacl_log_message("PPP_InitializeModule done.");
 
   return PP_OK;
 }

@@ -1,1 +1,6 @@
-hello_01_log: Basic NaCl Pepper 18 sample using C API and C compiler. Message passing for logs.
+hello_01_log
+- Basic NaCl Pepper 18 sample using C API and C compiler. Message passing for logs.
+
+hello_02_post_json
+- Using Insomniac DDL to post JSON of object to chrome. 
+- Custom NaCl DDL template generates concrete structure/class which can write JSON.

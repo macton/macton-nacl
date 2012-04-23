@@ -17,7 +17,8 @@
 #
 PROJECT:=hello
 LDFLAGS:=-lppapi_cpp -lppapi
-CXX_SOURCES=hello.c nacl.c
+CXX_SOURCES:=hello.c nacl.c
+DEPENDENCIES:=nacl.h
 
 #
 # Get pepper directory for toolchain and includes.
@@ -54,7 +55,7 @@ all: $(PROJECT)_x86_32.nexe $(PROJECT)_x86_64.nexe
 
 # Define 32 bit compile and link rules for C++ sources
 x86_32_OBJS:=$(patsubst %.c,%_32.o,$(CXX_SOURCES))
-$(x86_32_OBJS) : %_32.o : %.c $(THIS_MAKE)
+$(x86_32_OBJS) : %_32.o : %.c $(DEPENDENCIES) $(THIS_MAKE)
 	$(CXX) -o $@ -c $< -m32 -O0 -g $(CXXFLAGS)
 
 $(PROJECT)_x86_32.nexe : $(x86_32_OBJS)
@@ -62,7 +63,7 @@ $(PROJECT)_x86_32.nexe : $(x86_32_OBJS)
 
 # Define 64 bit compile and link rules for C++ sources
 x86_64_OBJS:=$(patsubst %.c,%_64.o,$(CXX_SOURCES))
-$(x86_64_OBJS) : %_64.o : %.c $(THIS_MAKE)
+$(x86_64_OBJS) : %_64.o : %.c $(DEPENDENCIES) $(THIS_MAKE)
 	$(CXX) -o $@ -c $< -m64 -O0 -g $(CXXFLAGS)
 
 $(PROJECT)_x86_64.nexe : $(x86_64_OBJS)

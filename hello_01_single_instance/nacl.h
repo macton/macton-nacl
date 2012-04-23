@@ -482,9 +482,6 @@ extern struct PP_FloatPoint          NaclWheelInputEventGetTicks( PP_Resource wh
 extern PP_Bool                       NaclWheelInputEventGetScrollByPage( PP_Resource wheel_event );
 
 #endif // NACL_C_INLINE
-#ifdef __cplusplus
-} // extern "C"
-#endif
 // --------------------------------------------------------------------------------------------
 // Globals used by single instance interfaces
 // --------------------------------------------------------------------------------------------
@@ -2301,3 +2298,6 @@ NaclWheelInputEventGetScrollByPage( PP_Resource wheel_event )
 }
 
 
+#ifdef __cplusplus
+} // extern "C"
+#endif

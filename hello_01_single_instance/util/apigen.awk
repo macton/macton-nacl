@@ -470,9 +470,6 @@ function OutputPPBDeclarationsHpp()
 {
   SelectPPB();
 
-  print "#ifdef __cplusplus"
-  print "extern \"C\" {";
-  print "#endif";
   print "#ifdef NACL_C_INLINE";
 
   interface_count = GetInterfaceCount();
@@ -496,9 +493,6 @@ function OutputPPBDeclarationsHpp()
   }
 
   print "#endif // NACL_C_INLINE";
-  print "#ifdef __cplusplus"
-  print "} // extern \"C\"";
-  print "#endif";
 }
 
 function OutputPPBInlineHpp()
@@ -577,7 +571,7 @@ END {
   print "// --------------------------------------------------------------------------------------------";
   print "// Except for instance parameters, documentation corresponds to what's in the NaCl include files:";
   print "//   ~/nacl_sdk/pepper_18/toolchain/linux_x86_newlib/x86_64-nacl/include/ppapi/";
-  print "//   Note: They're not totally accurate.";
+  print "//   Note: The documentation in those headers isn't totally accurate.";
   print "// --------------------------------------------------------------------------------------------";
   print "#include \"ppapi/c/pp_point.h\"";
   print "#include \"ppapi/c/pp_rect.h\"";
@@ -651,9 +645,17 @@ END {
   print "void    NaclMouseLockLost();";
   print "";
 
+  print "#ifdef __cplusplus"
+  print "extern \"C\" {";
+  print "#endif";
+
   OutputPPBDeclarationsHpp();
   OutputPPBGlobalsHpp();
   OutputPPBInlineHpp();
+
+  print "#ifdef __cplusplus"
+  print "} // extern \"C\"";
+  print "#endif";
 
   # SelectPPB();
   # OutputAssignGlobals();

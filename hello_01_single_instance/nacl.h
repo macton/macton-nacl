@@ -24,7 +24,7 @@
 // --------------------------------------------------------------------------------------------
 // Except for instance parameters, documentation corresponds to what's in the NaCl include files:
 //   ~/nacl_sdk/pepper_18/toolchain/linux_x86_newlib/x86_64-nacl/include/ppapi/
-//   Note: They're not totally accurate.
+//   Note: The documentation in those headers isn't totally accurate.
 // --------------------------------------------------------------------------------------------
 #include "ppapi/c/pp_point.h"
 #include "ppapi/c/pp_rect.h"

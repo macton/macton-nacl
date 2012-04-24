@@ -493,6 +493,7 @@ function OutputPPBDeclarationsHpp()
   }
 
   print "#endif // NACL_C_INLINE";
+  print "";
 }
 
 function OutputPPBInlineHpp()
@@ -659,6 +660,19 @@ END {
   print "// --------------------------------------------------------------------------------------------";
   print "void NaclMessagingPostUtf8(const char* msg);"
 
+  print "";
+  print "// --------------------------------------------------------------------------------------------";
+  print "// Various global settings.";
+  print "// Replace this nacl_settings.c with a local copy in your project to override.";
+  print "// --------------------------------------------------------------------------------------------";
+
+  print "extern const int kNaclGraphicsAttribAlphaSize;";
+  print "extern const int kNaclGraphicsAttribDepthSize;";
+  print "extern const int kNaclGraphicsAttribStencilSize;";
+  print "extern const int kNaclGraphicsAttribSamples;";
+  print "extern const int kNaclGraphicsAttribSampleBuffers;";
+
+  print "";
   print "#ifdef __cplusplus"
   print "} // extern \"C\"";
   print "#endif";

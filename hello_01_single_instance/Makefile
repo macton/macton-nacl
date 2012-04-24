@@ -17,8 +17,9 @@
 #
 PROJECT:=hello
 LDFLAGS:=-lppapi_cpp -lppapi
-CXX_SOURCES:=hello.c nacl.c
-DEPENDENCIES:=nacl.h
+CXX_SOURCES:=hello.c ../nacl_single_instance/nacl.c
+DEPENDENCIES:=../nacl_single_instance/nacl.h
+INCDIR:=-I../nacl_single_instance
 
 #
 # Get pepper directory for toolchain and includes.
@@ -32,7 +33,7 @@ NACL_SDK_ROOT?=$(abspath $(dir $(THIS_MAKEFILE))../..)
 # Project Build flags
 # WARNINGS:=-Wno-long-long -Wall -Wswitch-enum -pedantic -Werror
 # CXXFLAGS:=-pthread -std=gnu++98 $(WARNINGS)
-CXXFLAGS:=-pthread -std=c99 $(WARNINGS)
+CXXFLAGS:=-pthread -std=c99 $(WARNINGS) $(INCDIR)
 
 #
 # Compute tool paths
@@ -78,6 +79,6 @@ RUN: all
 
 .PHONY: clean
 clean:
-	rm -f *.o
+	rm -f $(x86_32_OBJS) $(x86_64_OBJS)
 	rm -f *.nexe
 

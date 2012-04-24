@@ -2,7 +2,7 @@ hello_01_log
 - Basic NaCl Pepper 18 sample using C API and C compiler. Message passing for logs.
 
 nacl_single_instance
-- Simplified (generated) sngle instance API. nacl.c; nacl.h
+- Simplified (generated) single instance API. nacl.c; nacl.h
 - See also: https://groups.google.com/d/topic/native-client-discuss/70hXg3AACeE/discussion
 
 hello_01_single_instance
@@ -11,6 +11,7 @@ hello_01_single_instance
 hello_02_post_json
 - Using Insomniac DDL to post JSON of object to chrome. 
 - Custom NaCl DDL template generates concrete structure/class which can write JSON.
+- Also mixes c99 and c++98
 
 License
 -------

@@ -5,12 +5,13 @@ PP_Resource ( *GetCurrentConfig ) ( PP_Resource audio )
 PP_Bool ( *StartPlayback ) ( PP_Resource audio )
 PP_Bool ( *StopPlayback ) ( PP_Resource audio )
 
-PPB AudioConfig
-PP_Resource ( *CreateStereo16Bit ) ( PP_Instance instance, PP_AudioSampleRate sample_rate, uint32_t sample_frame_count )
-uint32_t ( *RecommendSampleFrameCount ) ( PP_AudioSampleRate sample_rate, uint32_t requested_sample_frame_count )
-PP_Bool ( *IsAudioConfig ) ( PP_Resource resource )
-PP_AudioSampleRate ( *GetSampleRate ) ( PP_Resource config )
-uint32_t ( *GetSampleFrameCount ) ( PP_Resource config )
+PPB AudioConfig 1.1
+PP_Resource (*CreateStereo16Bit)(PP_Instance instance, PP_AudioSampleRate sample_rate, uint32_t sample_frame_count)
+uint32_t (*RecommendSampleFrameCount)( PP_Instance instance, PP_AudioSampleRate sample_rate, uint32_t requested_sample_frame_count)
+PP_Bool (*IsAudioConfig)(PP_Resource resource)
+PP_AudioSampleRate (*GetSampleRate)(PP_Resource config)
+uint32_t (*GetSampleFrameCount)(PP_Resource config)
+PP_AudioSampleRate (*RecommendSampleRate)(PP_Instance instance)
 
 PPB Core
 void ( *AddRefResource ) ( PP_Resource resource )

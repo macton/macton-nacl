@@ -123,6 +123,7 @@ extern uint32_t                      NaclAudioConfigRecommendSampleFrameCount( P
 extern PP_Bool                       NaclAudioConfigIsAudioConfig( PP_Resource resource );
 extern PP_AudioSampleRate            NaclAudioConfigGetSampleRate( PP_Resource config );
 extern uint32_t                      NaclAudioConfigGetSampleFrameCount( PP_Resource config );
+extern PP_AudioSampleRate            NaclAudioConfigRecommendSampleRate(  );
 
 // --------------------------------------------------------------------------------------------
 // PPB_Core interface
@@ -504,7 +505,7 @@ extern int32_t                          g_NaclViewHeight;
 extern PP_Resource                      g_NaclGraphics3dId;
 extern int32_t                          g_NaclGraphics3dLastSwapResult;
 extern const PPB_Audio*                 g_NaclAudio;                  // (5) functions
-extern const PPB_AudioConfig*           g_NaclAudioConfig;            // (5) functions
+extern const PPB_AudioConfig*           g_NaclAudioConfig;            // (6) functions
 extern const PPB_Core*                  g_NaclCore;                   // (6) functions
 extern const PPB_FileIO*                g_NaclFileIO;                 // (10) functions
 extern const PPB_FileRef*               g_NaclFileRef;                // (10) functions
@@ -575,7 +576,7 @@ NaclAudioConfigCreateStereo16Bit( PP_AudioSampleRate sample_rate, uint32_t sampl
 inline uint32_t
 NaclAudioConfigRecommendSampleFrameCount( PP_AudioSampleRate sample_rate, uint32_t requested_sample_frame_count )
 {
-  return g_NaclAudioConfig->RecommendSampleFrameCount(sample_rate, requested_sample_frame_count);
+  return g_NaclAudioConfig->RecommendSampleFrameCount(g_NaclInstanceId, sample_rate, requested_sample_frame_count);
 }
 
 inline PP_Bool
@@ -594,6 +595,12 @@ inline uint32_t
 NaclAudioConfigGetSampleFrameCount( PP_Resource config )
 {
   return g_NaclAudioConfig->GetSampleFrameCount(config);
+}
+
+inline PP_AudioSampleRate
+NaclAudioConfigRecommendSampleRate(  )
+{
+  return g_NaclAudioConfig->RecommendSampleRate(g_NaclInstanceId);
 }
 
 

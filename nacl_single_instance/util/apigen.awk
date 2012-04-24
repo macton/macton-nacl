@@ -694,3 +694,6 @@ END {
   # SelectPPP();
   # OutputInterface();
 }
+
+# Keep here for easy cut & paste
+# ~/nacl_sdk/pepper_19/toolchain/linux_x86_newlib/x86_64-nacl/include/ppapi/

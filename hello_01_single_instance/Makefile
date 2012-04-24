@@ -16,8 +16,8 @@
 # the rest of the makefile is boilerplate for defining build rules.
 #
 PROJECT:=hello
-LDFLAGS:=-lppapi_cpp -lppapi
-CXX_SOURCES:=hello.c ../nacl_single_instance/nacl.c
+LDFLAGS:=-lppapi_gles2 -lppapi_cpp -lppapi
+CXX_SOURCES:=hello.c ../nacl_single_instance/nacl.c ../nacl_single_instance/nacl_settings.c
 DEPENDENCIES:=../nacl_single_instance/nacl.h
 INCDIR:=-I../nacl_single_instance
 

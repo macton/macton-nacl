@@ -300,10 +300,15 @@ function OutputPPBGlobalsHpp()
   print "enum"
   print "{"
   print "  kNaclInvalidInstance = 0,"
+  print "  kNaclInvalidResource = 0,"
   print "};"
   print "";
 
   print rpad( "extern PP_Instance", 40 ) "g_NaclInstanceId;"
+  print rpad( "extern int32_t", 40 ) "g_NaclViewWidth;";
+  print rpad( "extern int32_t", 40 ) "g_NaclViewHeight;";
+  print rpad( "extern PP_Resource", 40 ) "g_NaclGraphics3dId;";
+  print rpad( "extern int32_t", 40 ) "g_NaclGraphics3dLastSwapResult;";
 
   SelectPPB();
 
@@ -619,6 +624,7 @@ END {
   print "#include \"ppapi/c/ppb_var.h\"";
   print "#include \"ppapi/c/ppb_view.h\"";
   print "#include \"ppapi/c/ppb_websocket.h\"";
+  print "#include \"ppapi/gles2/gl2ext_ppapi.h\"";
   print "";
   print "// --------------------------------------------------------------------------------------------";
   print "// Additional (missing?) typedefs";
@@ -640,11 +646,12 @@ END {
   print "// --------------------------------------------------------------------------------------------";
   print "// These are the functions you must provide to use this API:";
   print "// --------------------------------------------------------------------------------------------";
-  print "PP_Bool NaclHandleInputEvent( PP_Resource input_event );";
   print "PP_Bool NaclInstanceCreate( uint32_t argc, const char* argn[], const char* argv[] );";
   print "void    NaclInstanceDestroy();";
   print "void    NaclDidChangeView( PP_Resource view );";
   print "void    NaclDidChangeFocus( PP_Bool has_focus );";
+  print "void    NaclRenderFrame();";
+  print "PP_Bool NaclHandleInputEvent( PP_Resource input_event );";
   print "PP_Bool NaclHandleDocumentLoad( PP_Resource url_loader );";
   print "void    NaclHandleMessage( struct PP_Var message );";
   print "void    NaclMouseLockLost();";

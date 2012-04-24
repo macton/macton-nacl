@@ -10,6 +10,10 @@
 // --------------------------------------------------------------------------------------------
 
 PP_Instance                      g_NaclInstanceId;
+int32_t                          g_NaclViewWidth;
+int32_t                          g_NaclViewHeight;
+PP_Resource                      g_NaclGraphics3dId;
+int32_t                          g_NaclGraphics3dLastSwapResult;
 
 // --------------------------------------------------------------------------------------------
 // PPB Interface globals
@@ -41,6 +45,10 @@ const PPB_View*                  g_NaclView;                   // (6) functions
 const PPB_WebSocket*             g_NaclWebSocket;              // (14) functions
 const PPB_WheelInputEvent*       g_NaclWheelInputEvent;        // (5) functions
 
+// --------------------------------------------------------------------------------------------
+// Internal functions
+// --------------------------------------------------------------------------------------------
+static void PPP_RenderLoop( void* user_data, int32_t result );
 
 // --------------------------------------------------------------------------------------------
 // PPP_Instance entry points
@@ -53,7 +61,11 @@ PP_Bool PPP_Instance_DidCreate(PP_Instance instance, uint32_t argc, const char* 
     return PP_FALSE; // Only one instance allowed.
   }
 
-  g_NaclInstanceId = instance;
+  g_NaclInstanceId               = instance;
+  g_NaclViewWidth                = 0;
+  g_NaclViewHeight               = 0;
+  g_NaclGraphics3dId             = kNaclInvalidResource;
+  g_NaclGraphics3dLastSwapResult = 0;
 
   return NaclInstanceCreate( argc, argn, argv );
 }
@@ -70,6 +82,51 @@ void PPP_Instance_DidDestroy(PP_Instance instance)
 void PPP_Instance_DidChangeView(PP_Instance instance, PP_Resource view_resource)
 {
   assert(instance == g_NaclInstanceId);
+
+  PP_Rect position;
+  PP_Rect clip;
+
+  if ( !NaclViewGetRect( view_resource, &position ) )
+  {
+    return;
+  }
+
+  if ( !NaclViewGetClipRect( view_resource, &clip ) )
+  {
+    return;
+  }
+
+  if ( g_NaclGraphics3dId == kNaclInvalidResource )
+  {
+    int32_t attribs[] = 
+    {
+      PP_GRAPHICS3DATTRIB_ALPHA_SIZE,           kNaclGraphicsAttribAlphaSize,
+      PP_GRAPHICS3DATTRIB_DEPTH_SIZE,           kNaclGraphicsAttribDepthSize,
+      PP_GRAPHICS3DATTRIB_STENCIL_SIZE,         kNaclGraphicsAttribStencilSize,
+      PP_GRAPHICS3DATTRIB_SAMPLES,              kNaclGraphicsAttribSamples,
+      PP_GRAPHICS3DATTRIB_SAMPLE_BUFFERS,       kNaclGraphicsAttribSampleBuffers,
+      PP_GRAPHICS3DATTRIB_WIDTH,                position.size.width,
+      PP_GRAPHICS3DATTRIB_HEIGHT,               position.size.height,
+      PP_GRAPHICS3DATTRIB_NONE
+    };
+
+    g_NaclGraphics3dId  = NaclGraphics3DCreate( kNaclInvalidResource, attribs );
+    int32_t success     = NaclInstanceBindGraphics( g_NaclGraphics3dId );
+
+    if (success == PP_TRUE)  
+    {
+      PP_CompletionCallback cc = PP_MakeCompletionCallback( PPP_RenderLoop, NULL );
+      NaclCoreCallOnMainThread(0, cc, PP_OK);
+    }
+  } 
+  else if ((position.size.width != g_NaclViewWidth) || (position.size.height != g_NaclViewHeight))
+  {
+    NaclGraphics3DResizeBuffers( g_NaclGraphics3dId, position.size.width, position.size.height );
+  }
+
+  g_NaclViewWidth  = position.size.width;
+  g_NaclViewHeight = position.size.height;
+
   NaclDidChangeView( view_resource );
 }
 
@@ -238,3 +295,39 @@ PP_EXPORT const void* PPP_GetInterface(const char* interface_name)
 
   return NULL;
 }
+
+// --------------------------------------------------------------------------------------------
+// Internal functions
+// --------------------------------------------------------------------------------------------
+
+void PPP_RenderLoop( void* user_data, int32_t result ) 
+{
+  glSetCurrentContextPPAPI( g_NaclGraphics3dId );
+
+  NaclRenderFrame();
+
+  glSetCurrentContextPPAPI(0);
+
+  PP_CompletionCallback cc       = PP_MakeCompletionCallback( PPP_RenderLoop, NULL );
+  g_NaclGraphics3dLastSwapResult = PPBGraphics3D->SwapBuffers(instance->graphics3d_id, cc);
+}
+
+
+// --------------------------------------------------------------------------------------------
+// Utility functions (not part of API)
+// --------------------------------------------------------------------------------------------
+
+// void NaclMessagingPostUtf8(const char* msg)
+// Also see: Yuriy O'Donnell's ArcadeShooter NaCl Postmortem
+//     http://www.kayru.org/articles/arcadeshooter-nacl-postmortem/
+//     http://www.kayru.org/articles/arcadeshooter-nacl-postmortem/index.html.txt
+//     http://www.kayru.org/articles/arcadeshooter-nacl-postmortem/minimal_nacl_gles2.cpp.txt
+
+void NaclMessagingPostUtf8(const char* msg)
+{
+  PP_Var msg_var = NaclVarVarFromUtf8( msg, strlen(msg) );
+  NaclMessagingPostMessage(msg_var);
+  NaclVarRelease(msg_var);
+}
+
+

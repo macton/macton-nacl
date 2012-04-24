@@ -71,6 +71,7 @@
 #include "ppapi/c/ppb_var.h"
 #include "ppapi/c/ppb_view.h"
 #include "ppapi/c/ppb_websocket.h"
+#include "ppapi/gles2/gl2ext_ppapi.h"
 
 // --------------------------------------------------------------------------------------------
 // Additional (missing?) typedefs
@@ -92,11 +93,12 @@ extern "C" {
 // --------------------------------------------------------------------------------------------
 // These are the functions you must provide to use this API:
 // --------------------------------------------------------------------------------------------
-PP_Bool NaclHandleInputEvent( PP_Resource input_event );
 PP_Bool NaclInstanceCreate( uint32_t argc, const char* argn[], const char* argv[] );
 void    NaclInstanceDestroy();
 void    NaclDidChangeView( PP_Resource view );
 void    NaclDidChangeFocus( PP_Bool has_focus );
+void    NaclRenderFrame();
+PP_Bool NaclHandleInputEvent( PP_Resource input_event );
 PP_Bool NaclHandleDocumentLoad( PP_Resource url_loader );
 void    NaclHandleMessage( struct PP_Var message );
 void    NaclMouseLockLost();
@@ -491,9 +493,14 @@ extern PP_Bool                       NaclWheelInputEventGetScrollByPage( PP_Reso
 enum
 {
   kNaclInvalidInstance = 0,
+  kNaclInvalidResource = 0,
 };
 
 extern PP_Instance                      g_NaclInstanceId;
+extern int32_t                          g_NaclViewWidth;
+extern int32_t                          g_NaclViewHeight;
+extern PP_Resource                      g_NaclGraphics3dId;
+extern int32_t                          g_NaclGraphics3dLastSwapResult;
 extern const PPB_Audio*                 g_NaclAudio;                  // (5) functions
 extern const PPB_AudioConfig*           g_NaclAudioConfig;            // (5) functions
 extern const PPB_Core*                  g_NaclCore;                   // (6) functions

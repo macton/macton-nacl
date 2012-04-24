@@ -17,11 +17,11 @@
 #
 PROJECT:=hello
 CXX_SOURCES=mariner.cpp hello.cpp
-C_SOURCES=../nacl_single_instance/nacl.c
+C_SOURCES=../nacl_single_instance/nacl.c ../nacl_single_instance/nacl_settings.c
 DDLT=~/DDLParser/ddlt/ddlt
 INCLUDE_DIRS=../nacl_single_instance
 LIBRARY_DIRS :=
-LIBRARIES :=ppapi_cpp ppapi
+LIBRARIES :=ppapi_gles2 ppapi_cpp ppapi
 
 #
 # Get pepper directory for toolchain and includes.

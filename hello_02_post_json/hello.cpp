@@ -69,3 +69,7 @@ void NaclHandleMessage( PP_Var message )
 void NaclMouseLockLost()
 {
 }
+
+void NaclRenderFrame()
+{
+}

@@ -2299,6 +2299,11 @@ NaclWheelInputEventGetScrollByPage( PP_Resource wheel_event )
 }
 
 
+
+// --------------------------------------------------------------------------------------------
+// Utility functions (not part of NaCl API)
+// --------------------------------------------------------------------------------------------
+void NaclMessagingPostUtf8(const char* msg);
 #ifdef __cplusplus
 } // extern "C"
 #endif

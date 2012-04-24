@@ -653,6 +653,12 @@ END {
   OutputPPBGlobalsHpp();
   OutputPPBInlineHpp();
 
+  print "";
+  print "// --------------------------------------------------------------------------------------------";
+  print "// Utility functions (not part of NaCl API)";
+  print "// --------------------------------------------------------------------------------------------";
+  print "void NaclMessagingPostUtf8(const char* msg);"
+
   print "#ifdef __cplusplus"
   print "} // extern \"C\"";
   print "#endif";

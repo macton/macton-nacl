@@ -26,6 +26,9 @@ hello_02_post_json
 - Custom NaCl DDL template generates concrete structure/class which can write JSON.
 - Also mixes c99 and c++98
 
+hello_03_njf_demo
+- Port Nicholas Fullagar's OpenGLES2 ppapi_njf_demo to single_instance
+- See also: https://github.com/macton/ppapi_njf_demo
 
 License
 -------

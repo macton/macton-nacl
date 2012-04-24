@@ -17,6 +17,7 @@ hello_01_log
 nacl_single_instance
 - Simplified (generated) single instance API. nacl.c; nacl.h
 - See also: https://groups.google.com/d/topic/native-client-discuss/70hXg3AACeE/discussion
+- Graphics3D and OpenGLES2 boilerplate included (bind the view). Just provide RenderFrame()
 
 hello_01_single_instance
 - Use nacl_single_instance API. Equivalent to hello_01_log.

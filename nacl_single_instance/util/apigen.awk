@@ -625,6 +625,8 @@ END {
   print "#include \"ppapi/c/ppb_view.h\"";
   print "#include \"ppapi/c/ppb_websocket.h\"";
   print "#include \"ppapi/gles2/gl2ext_ppapi.h\"";
+  print "#include <GLES2/gl2.h>";
+  print "#include <GLES2/gl2ext.h>";
   print "";
   print "// --------------------------------------------------------------------------------------------";
   print "// Additional (missing?) typedefs";

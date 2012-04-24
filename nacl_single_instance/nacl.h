@@ -72,6 +72,8 @@
 #include "ppapi/c/ppb_view.h"
 #include "ppapi/c/ppb_websocket.h"
 #include "ppapi/gles2/gl2ext_ppapi.h"
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 
 // --------------------------------------------------------------------------------------------
 // Additional (missing?) typedefs

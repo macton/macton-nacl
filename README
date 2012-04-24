@@ -1,3 +1,16 @@
+Do you need a machine set up to build NaCl projects? ...and other info.
+- See the wiki: https://github.com/macton/macton-nacl/wiki
+
+Are you on the Native-Client-Discuss google group?
+- https://groups.google.com/forum/?fromgroups#!forum/native-client-discuss
+
+Find me on Twitter: @mike_acton 
+- http://twitter.com/mike_acton
+
+
+Projects
+--------
+
 hello_01_log
 - Basic NaCl Pepper 18 sample using C API and C compiler. Message passing for logs.
 
@@ -12,6 +25,7 @@ hello_02_post_json
 - Using Insomniac DDL to post JSON of object to chrome. 
 - Custom NaCl DDL template generates concrete structure/class which can write JSON.
 - Also mixes c99 and c++98
+
 
 License
 -------

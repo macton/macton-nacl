@@ -16,9 +16,12 @@
 # the rest of the makefile is boilerplate for defining build rules.
 #
 PROJECT:=hello
-LDFLAGS:=-lppapi_cpp -lppapi
 CXX_SOURCES=mariner.cpp hello.cpp
+C_SOURCES=../nacl_single_instance/nacl.c
 DDLT=~/DDLParser/ddlt/ddlt
+INCLUDE_DIRS=../nacl_single_instance
+LIBRARY_DIRS :=
+LIBRARIES :=ppapi_cpp ppapi
 
 #
 # Get pepper directory for toolchain and includes.
@@ -32,6 +35,14 @@ NACL_SDK_ROOT?=$(abspath $(dir $(THIS_MAKEFILE))../..)
 # Project Build flags
 # WARNINGS:=-Wno-long-long -Wall -Wswitch-enum -pedantic -Werror
 CXXFLAGS:=-pthread -std=gnu++98 $(WARNINGS)
+CCFLAGS:=-pthread -std=c99 $(WARNINGS)
+LDFLAGS:=-pthread
+
+# Add paths
+CXXFLAGS += $(foreach includedir,$(INCLUDE_DIRS),-I$(includedir))
+CCFLAGS += $(foreach includedir,$(INCLUDE_DIRS),-I$(includedir))
+LDFLAGS += $(foreach librarydir,$(LIBRARY_DIRS),-L$(librarydir))
+LDFLAGS += $(foreach library,$(LIBRARIES),-l$(library))
 
 #
 # Compute tool paths
@@ -40,6 +51,7 @@ CXXFLAGS:=-pthread -std=gnu++98 $(WARNINGS)
 OSNAME:=$(shell python $(NACL_SDK_ROOT)/tools/getos.py)
 TC_PATH:=$(abspath $(NACL_SDK_ROOT)/toolchain/$(OSNAME)_x86_newlib)
 CXX:=$(TC_PATH)/bin/i686-nacl-g++
+CC:=$(TC_PATH)/bin/i686-nacl-gcc
 LINK:=$(TC_PATH)/bin/i686-nacl-g++
 
 #
@@ -47,7 +59,6 @@ LINK:=$(TC_PATH)/bin/i686-nacl-g++
 #
 CYGWIN ?= nodosfilewarning
 export CYGWIN
-
 
 # Declare the ALL target first, to make the 'all' target the default build
 all: $(PROJECT)_x86_32.nexe $(PROJECT)_x86_64.nexe
@@ -61,21 +72,26 @@ mariner.cpp: $(DDLT) mariner.ddl mariner.h JsonWriteScope.h
 	astyle mariner.cpp
 
 # Define 32 bit compile and link rules for C++ sources
-x86_32_OBJS:=$(patsubst %.cpp,%_32.o,$(CXX_SOURCES))
-$(x86_32_OBJS) : %_32.o : %.cpp $(THIS_MAKE)
+x86_32_CXX_OBJS:=$(patsubst %.cpp,%_32.o,$(CXX_SOURCES))
+x86_32_C_OBJS:=$(patsubst %.c,%_32.o,$(C_SOURCES))
+x86_32_OBJS:= $(x86_32_CXX_OBJS) $(x86_32_C_OBJS)
+$(x86_32_CXX_OBJS) : %_32.o : %.cpp $(THIS_MAKE)
 	$(CXX) -o $@ -c $< -m32 -O0 -g $(CXXFLAGS)
-
+$(x86_32_C_OBJS) : %_32.o : %.c $(THIS_MAKE)
+	$(CC) -o $@ -c $< -m32 -O0 -g $(CCFLAGS)
 $(PROJECT)_x86_32.nexe : $(x86_32_OBJS)
-	$(LINK) -o $@ $^ -m32 -O0 -g $(CXXFLAGS) $(LDFLAGS)
+	$(LINK) -o $@ $^ -m32 -O0 -g $(LDFLAGS)
 
 # Define 64 bit compile and link rules for C++ sources
-x86_64_OBJS:=$(patsubst %.cpp,%_64.o,$(CXX_SOURCES))
-$(x86_64_OBJS) : %_64.o : %.cpp $(THIS_MAKE)
+x86_64_CXX_OBJS:=$(patsubst %.cpp,%_64.o,$(CXX_SOURCES))
+x86_64_C_OBJS:=$(patsubst %.c,%_64.o,$(C_SOURCES))
+x86_64_OBJS:= $(x86_64_CXX_OBJS) $(x86_64_C_OBJS)
+$(x86_64_CXX_OBJS) : %_64.o : %.cpp $(THIS_MAKE)
 	$(CXX) -o $@ -c $< -m64 -O0 -g $(CXXFLAGS)
-
+$(x86_64_C_OBJS) : %_64.o : %.c $(THIS_MAKE)
+	$(CC) -o $@ -c $< -m64 -O0 -g $(CCFLAGS)
 $(PROJECT)_x86_64.nexe : $(x86_64_OBJS)
-	$(LINK) -o $@ $^ -m64 -O0 -g $(CXXFLAGS) $(LDFLAGS)
-
+	$(LINK) -o $@ $^ -m64 -O0 -g $(LDFLAGS)
 
 # Define a phony rule so it always runs, to build nexe and start up server.
 .PHONY: RUN 
@@ -85,7 +101,7 @@ RUN: all
 
 .PHONY: clean
 clean:
-	rm -f *.o
+	rm -f $(x86_32_OBJS) $(x86_64_OBJS)
 	rm -f *.nexe
 	rm -f *.orig
 

@@ -22,4 +22,5 @@ struct Mariner
   Weapon     Weapon,   value( kPistol ),              description( "The player's current weapon" );
   string     Name,     value( "Mariner" ),            description( "The player's name for multiplayer sessions" );
   Position   Position, value( { X = 100, Y = 120 } ), description( "The player's position" );
+  string     Timestamp;
 }

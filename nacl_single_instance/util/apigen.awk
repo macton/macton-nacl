@@ -632,6 +632,10 @@ END {
   print "typedef struct PP_CompletionCallback  PP_CompletionCallback;";
   print "#endif";
   print "";
+  print "#ifdef __cplusplus"
+  print "extern \"C\" {";
+  print "#endif";
+  print "";
   print "// --------------------------------------------------------------------------------------------";
   print "// These are the functions you must provide to use this API:";
   print "// --------------------------------------------------------------------------------------------";
@@ -644,10 +648,6 @@ END {
   print "void    NaclHandleMessage( struct PP_Var message );";
   print "void    NaclMouseLockLost();";
   print "";
-
-  print "#ifdef __cplusplus"
-  print "extern \"C\" {";
-  print "#endif";
 
   OutputPPBDeclarationsHpp();
   OutputPPBGlobalsHpp();

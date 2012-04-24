@@ -85,6 +85,10 @@ typedef struct PP_FileInfo            PP_FileInfo;
 typedef struct PP_CompletionCallback  PP_CompletionCallback;
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // --------------------------------------------------------------------------------------------
 // These are the functions you must provide to use this API:
 // --------------------------------------------------------------------------------------------
@@ -97,9 +101,6 @@ PP_Bool NaclHandleDocumentLoad( PP_Resource url_loader );
 void    NaclHandleMessage( struct PP_Var message );
 void    NaclMouseLockLost();
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 #ifdef NACL_C_INLINE
 // --------------------------------------------------------------------------------------------
 // PPB_Audio interface

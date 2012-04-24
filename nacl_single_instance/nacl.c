@@ -77,6 +77,12 @@ void PPP_Instance_DidDestroy(PP_Instance instance)
   NaclInstanceDestroy();
 
   g_NaclInstanceId = kNaclInvalidInstance;
+
+  if ( g_NaclGraphics3dId != kNaclInvalidResource ) 
+  {
+    NaclCoreReleaseResource( g_NaclGraphics3dId );
+    g_NaclGraphics3dId = kNaclInvalidResource;
+  }
 }
 
 void PPP_Instance_DidChangeView(PP_Instance instance, PP_Resource view_resource)
@@ -240,11 +246,18 @@ PP_EXPORT int32_t PPP_InitializeModule(PP_Module module, PPB_GetInterface get_br
     return -1;
   }
 
+  // Initialize gl w/ browser interface
+  if (!glInitializePPAPI(get_browser_interface)) 
+  {
+    return -1;
+  }
+
   return PP_OK;
 }
 
 PP_EXPORT void PPP_ShutdownModule() 
 {
+  glTerminatePPAPI();
 }
 
 PP_EXPORT const void* PPP_GetInterface(const char* interface_name) 
@@ -309,7 +322,7 @@ void PPP_RenderLoop( void* user_data, int32_t result )
   glSetCurrentContextPPAPI(0);
 
   PP_CompletionCallback cc       = PP_MakeCompletionCallback( PPP_RenderLoop, NULL );
-  g_NaclGraphics3dLastSwapResult = PPBGraphics3D->SwapBuffers(instance->graphics3d_id, cc);
+  g_NaclGraphics3dLastSwapResult = NaclGraphics3DSwapBuffers( g_NaclGraphics3dId, cc );
 }
 
 

@@ -1,9 +1,13 @@
 
 #define NACL_C_INLINE
+
 #include "nacl.h"
 
 #include <assert.h>
 #include <string.h>
+#include <stdarg.h>
+#include <alloca.h>
+#include <stdio.h>
 
 // --------------------------------------------------------------------------------------------
 // Global instance (There can be only one!)
@@ -343,4 +347,24 @@ void NaclMessagingPostUtf8(const char* msg)
   NaclVarRelease(msg_var);
 }
 
+void NaclMessagingPostPrintf( const char* format, ... )
+{
+  int     length;
+  va_list args;
+  char*   buffer;
 
+  va_start( args, format );
+  length = vsnprintf( NULL, 0, format, args );
+  va_end( args );
+
+  buffer = alloca( length + 1 );
+
+  if ( buffer ) 
+  {
+    va_start( args, format );
+    vsnprintf( buffer, length+1, format, args );
+    va_end( args );
+
+    NaclMessagingPostUtf8( buffer );
+  }
+}

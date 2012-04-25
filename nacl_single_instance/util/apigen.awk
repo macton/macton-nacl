@@ -667,7 +667,8 @@ END {
   print "// --------------------------------------------------------------------------------------------";
   print "// Utility functions (not part of NaCl API)";
   print "// --------------------------------------------------------------------------------------------";
-  print "void NaclMessagingPostUtf8(const char* msg);"
+  print "void NaclMessagingPostUtf8(const char* msg);";
+  print "void NaclMessagingPostPrintf( const char* format, ... );";
 
   print "";
   print "// --------------------------------------------------------------------------------------------";

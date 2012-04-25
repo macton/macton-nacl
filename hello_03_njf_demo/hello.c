@@ -69,7 +69,8 @@ PP_Bool NaclHandleInputEvent ( PP_Resource input_event )
 
 PP_Bool NaclInstanceCreate ( uint32_t argc, const char* argn[], const char* argv[] )
 {
-  NaclMessagingPostUtf8 ( "Instance_DidCreate" );
+  NaclMessagingPostPrintf( "Instance_DidCreate" );
+
   g_CursorX     = 0;
   g_CursorY     = 0;
   g_KeysPressed = 0;
@@ -95,11 +96,14 @@ PP_Bool NaclInstanceCreate ( uint32_t argc, const char* argn[], const char* argv
 
   // Request a 10ms sample frame count; use what is recommended.
   g_SampleFrameCount = NaclAudioConfigRecommendSampleFrameCount ( g_SampleRate, g_SampleRate / 100 );
+
   // Create the audio device and start playback to trigger AudioCallback.
   // Note: The audio callback to fill the next buffer occurs on its own
   // dedicated thread.
+
   g_AudioConfigId = NaclAudioConfigCreateStereo16Bit ( g_SampleRate, g_SampleFrameCount );
   g_AudioId       = NaclAudioCreate ( g_AudioConfigId, AudioCallback, NULL /* user_data */ );
+
   NaclAudioStartPlayback ( g_AudioId );
 
   return PP_TRUE;
@@ -111,12 +115,12 @@ void NaclInstanceDestroy()
 
 void NaclDidChangeView ( PP_Resource view )
 {
-  NaclMessagingPostUtf8 ( "Instance_DidChangeView" );
+  NaclMessagingPostPrintf( "Instance_DidChangeView" );
 }
 
 void  NaclDidChangeFocus ( PP_Bool has_focus )
 {
-  NaclMessagingPostUtf8 ( "Instance_DidChangeFocus" );
+  NaclMessagingPostPrintf( "Instance_DidChangeFocus" );
 }
 
 PP_Bool NaclHandleDocumentLoad ( PP_Resource url_loader )
@@ -172,26 +176,21 @@ void NaclRenderFrame()
 
 void RenderFrameStartup()
 {
-  char   message_buffer[ 4096 ];
   char*  ext;
 
-  NaclMessagingPostUtf8 ( "---- Starting up 3d in NaCl\n" );
+  NaclMessagingPostPrintf( "---- Starting up 3d in NaCl ----\n" );
 
   ext = ( char* ) glGetString ( GL_EXTENSIONS );
-  sprintf ( message_buffer, "extensions: %s\n", ext );
-  NaclMessagingPostUtf8 ( message_buffer );
+  NaclMessagingPostPrintf( "extensions: %s\n", ext );
 
   int num_formats;
   glGetIntegerv ( GL_NUM_COMPRESSED_TEXTURE_FORMATS, &num_formats );
 
-  sprintf ( message_buffer, "number of compressed formats: %d\n", num_formats );
-  NaclMessagingPostUtf8 ( message_buffer );
+  NaclMessagingPostPrintf( "number of compressed formats: %d\n", num_formats );
 
   if ( num_formats > 0 )
   {
-    int*        formats = ( int* ) alloca ( num_formats * sizeof ( int ) );
-    const char* fmtstr;
-    char        temp[1024];
+    int*  formats = ( int* ) alloca ( num_formats * sizeof ( int ) );
 
     glGetIntegerv ( GL_COMPRESSED_TEXTURE_FORMATS, formats );
 
@@ -200,24 +199,22 @@ void RenderFrameStartup()
       switch ( formats[i] )
       {
         case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
-          fmtstr = "GL_COMPRESSED_RGB_S3TC_DXT1";
+          NaclMessagingPostPrintf( "format %d is %s\n", i, "GL_COMPRESSED_RGB_S3TC_DXT1" );
           break;
         case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
-          fmtstr = "GL_COMPRESSED_RGBA_S3TC_DXT1";
+          NaclMessagingPostPrintf( "format %d is %s\n", i, "GL_COMPRESSED_RGBA_S3TC_DXT1" );
           break;
         case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
-          fmtstr = "GL_COMPRESSED_RGBA_S3TC_DXT3_EXT";
+          NaclMessagingPostPrintf( "format %d is %s\n", i, "GL_COMPRESSED_RGBA_S3TC_DXT3_EXT" );
           break;
         case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
-          fmtstr = "GL_COMPRESSED_RGBA_S3TC_DXT5_EXT";
+          NaclMessagingPostPrintf( "format %d is %s\n", i, "GL_COMPRESSED_RGBA_S3TC_DXT5_EXT" );
           break;
         default:
-          fmtstr = ( const char* ) sprintf ( temp, "Unknown: 0x%0x", formats[i] );
+          NaclMessagingPostPrintf( "format %d is Unknown: 0x%08x\n", i, formats[i] );
           break;
       }
 
-      sprintf ( message_buffer, "format %d is %s\n", i, fmtstr );
-      NaclMessagingPostUtf8 ( message_buffer );
     }
   }
 }

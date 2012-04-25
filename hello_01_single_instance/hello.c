@@ -12,7 +12,7 @@ PP_Bool NaclHandleInputEvent( PP_Resource input_event )
 
 PP_Bool NaclInstanceCreate( uint32_t argc, const char* argn[], const char* argv[] )
 {
-  NaclMessagingPostUtf8("Instance_DidCreate");
+  NaclMessagingPostPrintf("Instance_DidCreate");
   return PP_TRUE;
 }
 
@@ -22,12 +22,12 @@ void NaclInstanceDestroy()
 
 void NaclDidChangeView( PP_Resource view )
 {
-  NaclMessagingPostUtf8("Instance_DidChangeView");
+  NaclMessagingPostPrintf("Instance_DidChangeView");
 }
 
 void  NaclDidChangeFocus( PP_Bool has_focus )
 {
-  NaclMessagingPostUtf8("Instance_DidChangeFocus");
+  NaclMessagingPostPrintf("Instance_DidChangeFocus");
 }
 
 PP_Bool NaclHandleDocumentLoad( PP_Resource url_loader )

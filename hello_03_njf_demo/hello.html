@@ -18,16 +18,25 @@
   </style>
   <body style="height:100%">
 
-    <h1>PPAPI Simple Demo</h1>
+    <h1>PPAPI OpenGLES2 Simple Demo</h1>
+
 
     <div style="width:40%; float:left; margin-right: 10px;">
-      Make sure you have Native Client enabled in Chrome.
+
+      <h2>Ported from Nicholas Fullagar's <a href="https://github.com/macton/ppapi_njf_demo">ppapi_njf_demo</a></h2>
+      <ul>
+        <li>Mike Acton <macton@gmail.com> <macton@insomniacgames.com> <a href="http://twitter.com/mike_acton">@mike_acton</a></li>
+        <li>See: Google group (Native-Client-Discuss) thread on <a href="https://groups.google.com/d/msg/native-client-discuss/r7SP2YwFBsE/Ig_mRpVYO3wJ</li>">needing a simple OpenGLES2 demo for NaCl</a>
+      </ul>
+
+      <h2>Make sure you have Native Client enabled in Chrome.</h2>
       <ol>
         <li>Type about:flags in the Chrome address bar.</li>
         <li>Scroll down to "Native Client" and click the "Enable" link.</li>
         <li>Scroll down to the bottom of the page and click the "Relaunch Now" button. Native Client will not be enabled until you relaunch your browser.</li>
       </ol>
-      <br>
+
+      <h2>Log:</h2>
       <div id="load-status">Module loading...</div>
       <div id="instance-status"></div>
       <div id="focus-status"></div>
@@ -37,13 +46,17 @@
 
 
     <div style="width:50%; float:left;">
+      <h2> What should you see below?</h2>
+
       <p>The rectangle below should have a blue background with a green border.
       A red box should appear under the mouse cursor if it is within the
       blue area. The blue area should resize appropriately if the
       browser window is resized.</p>
 
+      <p>Clicking or pressing key over the rectangle should (1) change the box color; and (2) play a triangle wave sound.</p>
+
       <div id="listener">
-        <embed type="application/x-nacl" id="hello_nexe" name="nacl_module" src="hello.nmf" style="background-color: #88ffff; width: 100%; height: 80%;" />
+        <embed type="application/x-nacl" id="hello_nexe" name="nacl_module" src="hello.nmf" style="background-color: #88ffff; width: 100%; height: 60%;" />
     
         <script type="text/javascript">
           var load_status     = document.getElementById('load-status');

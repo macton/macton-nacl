@@ -7,12 +7,16 @@ Are you on the Native-Client-Discuss google group?
 Find me on Twitter: @mike_acton 
 - http://twitter.com/mike_acton
 
+What version of Pepper do these run on?
+- 24 Apr 2012: Pepper 19
+- 20 Apr 2012: Pepper 18
+
 
 Projects
 --------
 
 hello_01_log
-- Basic NaCl Pepper 18 sample using C API and C compiler. Message passing for logs.
+- Basic sample using C API and C compiler. Message passing for logs.
 
 nacl_single_instance
 - Simplified (generated) single instance API. nacl.c; nacl.h
@@ -30,6 +34,7 @@ hello_02_post_json
 hello_03_njf_demo
 - Port Nicholas Fullagar's OpenGLES2 ppapi_njf_demo to single_instance
 - See also: https://github.com/macton/ppapi_njf_demo
+
 
 License
 -------

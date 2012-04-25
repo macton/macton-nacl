@@ -1,0 +1,9 @@
+Lua lib for embedding into NaCl applications
+- 24 Apr 2012 <macton@insomniacgames.com> @mike_acton
+
+----
+This is Lua 5.2, released on 12 Dec 2011.
+
+For installation instructions, license details, and
+further information about Lua, see doc/readme.html.
+

@@ -26,6 +26,9 @@ nacl_single_instance
 hello_01_single_instance
 - Use nacl_single_instance API. Equivalent to hello_01_log.
 
+hello_01_sel_ldr
+- Simple example of using sel_ldr to run nexe from command line, read stdin and write stdou
+
 hello_02_post_json
 - Using Insomniac DDL to post JSON of object to chrome. 
 - Custom NaCl DDL template generates concrete structure/class which can write JSON.
@@ -34,6 +37,9 @@ hello_02_post_json
 hello_03_njf_demo
 - Port Nicholas Fullagar's OpenGLES2 ppapi_njf_demo to single_instance
 - See also: https://github.com/macton/ppapi_njf_demo
+
+ports/lua/5.2.0
+- Lua library for embedding in applications
 
 
 License

@@ -71,6 +71,13 @@ PP_Bool PPP_Instance_DidCreate(PP_Instance instance, uint32_t argc, const char* 
   g_NaclGraphics3dId             = kNaclInvalidResource;
   g_NaclGraphics3dLastSwapResult = 0;
 
+  // --------------------------------------------------------------------------
+  // Request the event types that this instance will recieve. (ALL)
+  // --------------------------------------------------------------------------
+
+  NaclInputEventRequestInputEvents ( PP_INPUTEVENT_CLASS_MOUSE | PP_INPUTEVENT_CLASS_KEYBOARD | PP_INPUTEVENT_CLASS_WHEEL | PP_INPUTEVENT_CLASS_IME );
+
+
   return NaclInstanceCreate( argc, argn, argv );
 }
 

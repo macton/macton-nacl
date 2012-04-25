@@ -40,6 +40,7 @@ PP_Bool NaclHandleInputEvent ( PP_Resource input_event )
 
   switch ( type )
   {
+    /* Notification that a mouse button was moved when it is over the instance or dragged out of it. */
     case PP_INPUTEVENT_TYPE_MOUSEMOVE:
     {
       PP_Point point;
@@ -48,18 +49,82 @@ PP_Bool NaclHandleInputEvent ( PP_Resource input_event )
       g_CursorY = point.y;
     }
     break;
+
+    /* Notification that a mouse button was pressed. */
     case PP_INPUTEVENT_TYPE_MOUSEDOWN:
+    {
+      g_KeysPressed++;
+    }
+    break;
+
+    /* Notification that a key was pressed. This does not necessarily correspond
+     * to a character depending on the key and language. Use the
+     * PP_INPUTEVENT_TYPE_CHAR for character input. */
     case PP_INPUTEVENT_TYPE_KEYDOWN:
     {
       g_KeysPressed++;
     }
     break;
+
+    /* Notification that a mouse button was released. */
     case PP_INPUTEVENT_TYPE_MOUSEUP:
+    {
+      g_KeysPressed = ( g_KeysPressed == 0 ) ? 0 : g_KeysPressed - 1;
+    }
+    break;
+
+    /* Notification that a key was released. */
     case PP_INPUTEVENT_TYPE_KEYUP:
     {
       g_KeysPressed = ( g_KeysPressed == 0 ) ? 0 : g_KeysPressed - 1;
     }
     break;
+
+    /* Notification that the mouse entered the instance's bounds. */
+    case PP_INPUTEVENT_TYPE_MOUSEENTER:
+    break;
+
+    /* Notification that a mouse left the instance's bounds. */
+    case PP_INPUTEVENT_TYPE_MOUSELEAVE:
+    break;
+
+    /* Notification that the scroll wheel was used. */
+    case PP_INPUTEVENT_TYPE_WHEEL:
+    break;
+
+    /* Notification that a key transitioned from "up" to "down". */
+    case PP_INPUTEVENT_TYPE_RAWKEYDOWN:
+    break;
+
+    /* Notification that a character was typed. Use this for text input. Key
+     * down events may generate 0, 1, or more than one character event depending
+     * on the key, locale, and operating system. */
+    case PP_INPUTEVENT_TYPE_CHAR:
+    break;
+
+    /* TODO(brettw) when is this used? */
+    case PP_INPUTEVENT_TYPE_CONTEXTMENU:
+    break;
+
+    /* Notification that an input method composition process has just started. */
+    case PP_INPUTEVENT_TYPE_IME_COMPOSITION_START:
+    break;
+
+    /* Notification that the input method composition string is updated. */
+    case PP_INPUTEVENT_TYPE_IME_COMPOSITION_UPDATE:
+    break;
+
+    /* Notification that an input method composition process has completed. */
+    case PP_INPUTEVENT_TYPE_IME_COMPOSITION_END:
+    break;
+
+    /* Notification that an input method committed a string. */
+    case PP_INPUTEVENT_TYPE_IME_TEXT:
+    break;
+
+    case PP_INPUTEVENT_TYPE_UNDEFINED:
+    break;
+
     default:
       break;
   }
@@ -74,12 +139,6 @@ PP_Bool NaclInstanceCreate ( uint32_t argc, const char* argn[], const char* argv
   g_CursorX     = 0;
   g_CursorY     = 0;
   g_KeysPressed = 0;
-
-  // --------------------------------------------------------------------------
-  // Request the event types that this instance will recieve.
-  // --------------------------------------------------------------------------
-
-  NaclInputEventRequestInputEvents ( PP_INPUTEVENT_CLASS_MOUSE | PP_INPUTEVENT_CLASS_KEYBOARD );
 
   // --------------------------------------------------------------------------
   // Create audio & register application audio callback.

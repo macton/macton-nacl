@@ -88,16 +88,17 @@ $(PROJECT)_x86_64.nexe : $(x86_64_OBJS)
 # Define a phony rule so it always runs, to build nexe and start up server.
 .PHONY: run
 run: all
-	$(NACL_SDK_ROOT)/tools/sel_ldr_x86_64 -B $(NACL_SDK_ROOT)/tools/irt_x86_64.nexe $(PROJECT)_x86_64.nexe < hello.c
-	$(NACL_SDK_ROOT)/tools/sel_ldr_x86_32 -B $(NACL_SDK_ROOT)/tools/irt_x86_32.nexe $(PROJECT)_x86_32.nexe < hello.c
+	$(NACL_SDK_ROOT)/tools/sel_ldr_x86_64 -a -S -B $(NACL_SDK_ROOT)/tools/irt_core_x86_64.nexe $(PROJECT)_x86_64.nexe hello.c
+	$(NACL_SDK_ROOT)/tools/sel_ldr_x86_32 -a -S -B $(NACL_SDK_ROOT)/tools/irt_core_x86_32.nexe $(PROJECT)_x86_32.nexe hello.c
+
 
 .PHONY: run64
 run64: all
-	$(NACL_SDK_ROOT)/tools/sel_ldr_x86_64 -B $(NACL_SDK_ROOT)/tools/irt_x86_64.nexe $(PROJECT)_x86_64.nexe < hello.c
+	$(NACL_SDK_ROOT)/tools/sel_ldr_x86_64 -a -S -B $(NACL_SDK_ROOT)/tools/irt_core_x86_64.nexe $(PROJECT)_x86_64.nexe hello.c
 
 .PHONY: run32
 run32: all
-	$(NACL_SDK_ROOT)/tools/sel_ldr_x86_32 -B $(NACL_SDK_ROOT)/tools/irt_x86_32.nexe $(PROJECT)_x86_32.nexe < hello.c
+	$(NACL_SDK_ROOT)/tools/sel_ldr_x86_32 -a -S -B $(NACL_SDK_ROOT)/tools/irt_core_x86_32.nexe $(PROJECT)_x86_32.nexe hello.c
 
 
 .PHONY: clean

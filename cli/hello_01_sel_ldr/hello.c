@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <alloca.h>
+#include <stdint.h>
 
 int
 main ( int argc, char** argv )
@@ -37,7 +38,7 @@ main ( int argc, char** argv )
     }
   }
 
-  printf ( "Size of input file: %d\n", input_size );
+  printf ( "Size of input file: %lu\n", (unsigned long)input_size );
   printf ( "----- INPUT BEGIN -----\n" );
   fwrite ( input_buffer, input_size, 1, stdout );
   printf ( "----- INPUT END -----\n" );

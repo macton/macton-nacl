@@ -1,0 +1,24 @@
+How to use:
+
+1. make the cgi nexe:
+   $ cd save_source
+   $ make
+
+2. have a webserver running that will let you execute cgi scripts.
+   - I like mongoose for a quick and small server: http://code.google.com/p/mongoose/
+   - I ran that in the examples directory (instead of httpd.py in nacl_sdk)
+
+3. make sure you can execute nexes from the command line
+   - See: https://groups.google.com/d/msg/native-client-discuss/WK0f53cTG0s/TtkEvlXcSTUJ
+
+4. make sure you forward the CGI environment variables (CONTENT_LENGTH in particular) to the nexe process:
+   here's what one of my scripts looks like now:
+
+   #!/bin/sh
+   /home/ubuntu/nacl_sdk/pepper_19/tools/sel_ldr_x86_32 -a -S -B /home/ubuntu/nacl_sdk/pepper_19/tools/irt_core_x86_32.nexe -l /dev/null -ECONTENT_LENGTH=${CONTENT_LENGTH} -EHTTP_HOST=${HTTP_HOST} "$@"  2> /dev/null
+
+5. that's pretty much it, I think.
+   - just point your browser to this directory on the server and go. 
+   - also see the single_instance project above, since that's being used here. (Although you don't have to.)
+
+Mike.

@@ -41,6 +41,9 @@ hello_03_njf_demo
 ports/lua/5.2.0
 - Lua library for embedding in applications
 
+server_compile
+- Build code submitted from website on the server, dynamically reload nexe. Bonus: NaCl as CGI script. see: server_compile/README
+
 
 License
 -------

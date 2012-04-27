@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NaCl Compiler</title>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="css/index.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">NaCl Compiler</a>
+          <!-- 
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#test1">Test 1</a></li>
+              <li><a href="#test2">Test 2</a></li>
+              <li><a href="#test3">Test 3</a></li>
+            </ul>
+          </div>
+          -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="span12">
+          <div class="well">
+            This is a quick and dirty sample. Code is sent to the server to be compiled with Native Client toolchain. Then the module is loaded dynamically.</br>
+            -- <a href="http://twitter.com/mike_acton">@mike_acton</a></br>
+            Note: Requires Chrome 19 or higher.
+          </div>
+        </div>
+      </div>
+
+      <div class="row" id="source-display">
+        <div class="span12">
+          <div class="well">
+            <textarea id="source-code" style="resize:none; height: 300px; width: 100%;"></textarea>
+            <div class="btn btn-primary" id="compile-it">Compile and run!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="span12">
+          <div class="well">
+            Build output
+            <pre id="make_output"></pre>
+          </div>
+        </div>
+      </div> 
+
+      <div class="row" id="nacl-display" style="display:none;">
+
+        <div class="span4">
+          <div class="well">
+            NaCl Module output:
+            <pre id="output"></pre>
+          </div>
+        </div>
+
+        <div class="span8">
+          <div class="well">
+
+            NaclModule display:
+            <div class="btn btn-primary" id="compile-again">Compile again!</div>
+            <div id="listener">
+              <embed type="application/x-nacl" id="hello_nexe" name="nacl_module" src="hello.nmf" style="background-color: #88ffff;" width="560px" height="600px"/>
+              <script type="text/javascript">
+                var listener        = document.getElementById('listener');
+                var output          = document.getElementById('output');
+          
+                function module_ready( message ) {
+                }
+          
+                function log( message ) {
+                  if (output.innerHTML.length == 0) {
+                    output.innerHTML = message.data;
+                  } else {
+                    output.innerHTML = output.innerHTML + '<br />' + message.data;
+                  }
+                }
+          
+                listener.addEventListener( 'load',    module_ready,  true );
+                listener.addEventListener( 'message', log,           true );
+              </script>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div> <!-- /container -->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="js/server-compile.js"></script>
+
+  </body>
+</html>
+
+
+

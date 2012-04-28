@@ -210,7 +210,8 @@ void NaclRenderFrame()
   glClear ( GL_COLOR_BUFFER_BIT );
   glScissor ( 5, 5, g_NaclViewWidth - 10, g_NaclViewHeight - 10 );
 
-  glClearColor (1.0f, 1.0f, 0.0f, 1.0f );
+  float blue = 0.0f;
+  glClearColor ( 1.0f, 1.0f, blue, 1.0f );
   glClear ( GL_COLOR_BUFFER_BIT );
 
   // Draw a box under the cursor.  Need to flip vertically as gl expects

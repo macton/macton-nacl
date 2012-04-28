@@ -45,8 +45,8 @@ int main ( void )
   long   len;
   int    id;
 
-  srand( time(NULL) );
-  id = rand();
+  // srand( time(NULL) );
+  id = time(NULL);
 
   printf ( "Content-type: application/json\r\n\r\n" );
   lenstr = getenv ( "CONTENT_LENGTH" );

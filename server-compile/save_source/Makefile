@@ -19,11 +19,11 @@ PROJECT:=save_source
 PORT_DIR:=/home/ubuntu/nacl_sdk/pepper_19/examples/macton-nacl/ports/
 CXX_SOURCES=
 C_SOURCES=save_source.c
-INCLUDE_DIRS=$(PORT_DIR)/ccgi/1.1/
-LIBRARY_DIRS :=$(PORT_DIR)/ccgi/1.1/ccgi
-LIBRARIES :=
-LIBRARIES_X32 := ccgi_x86_32
-LIBRARIES_X64 := ccgi_x86_64
+INCLUDE_DIRS=
+LIBRARY_DIRS:=
+LIBRARIES:=
+LIBRARIES_X32:=
+LIBRARIES_X64:=
 
 #
 # Get pepper directory for toolchain and includes.

@@ -59,24 +59,6 @@
     <div class="ui-layout-east">
       <div id="nexe-display">
         <embed type="application/x-nacl" id="hello-nexe" name="nacl_module" src="hello.nmf" style="background-color: #88ffff;" width="100%" height="100%"/>
-        <script type="text/javascript">
-          var listener        = document.getElementById('nexe-display');
-          var output          = document.getElementById('output');
-    
-          function module_ready( message ) {
-          }
-    
-          function log( message ) {
-            if (output.innerHTML.length == 0) {
-              output.innerHTML = message.data;
-            } else {
-              output.innerHTML = output.innerHTML + '<br />' + message.data;
-            }
-          }
-    
-          listener.addEventListener( 'load',    module_ready,  true );
-          listener.addEventListener( 'message', log,           true );
-        </script>
       </div>
     </div> <!-- east -->
 

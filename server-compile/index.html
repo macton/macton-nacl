@@ -6,7 +6,7 @@
     <title>NaCl Compiler</title>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="css/layout-default.css" rel="stylesheet">
+    <link href="css/layout-default-latest.css" rel="stylesheet">
     <link href="css/codemirror.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
   </head>
@@ -23,8 +23,8 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="#">NaCl Compiler</a>
-            <!-- 
+            <a class="brand" href="#">NaCl Compiler (Requires Chrome 19 or higher)</a>
+            <!--
             <div class="nav-collapse">
               <ul class="nav">
                 <li class="active"><a href="#test1">Test 1</a></li>
@@ -33,20 +33,20 @@
               </ul>
             </div>
             -->
-          </div>
-        </div>
-      </div>
+          </div> <!-- container -->
+        </div> <!-- navbar-inner -->
+      </div> <!-- navbar -->
+
       <div>
-        This is a quick and dirty sample. Code is sent to the server to be compiled with Native Client toolchain. Then the module is loaded dynamically.</br>
-        -- <a href="http://twitter.com/mike_acton">@mike_acton</a></br>
-        Note: Requires Chrome 19 or higher.
+        <div class="btn btn-primary" id="compile-it">Compile and run!</div>
+        <div class="btn" id="close-nexe" style="display:none;">Stop</div>
       </div>
-      <div class="btn btn-primary" id="compile-it">Compile and run!</div>
+
     </div> <!-- north -->
 
-    <div class="ui-layout-center">
+    <div class="ui-layout-center code-panel">
       <div id="source-code-container"></div>
-    </div> <!-- center -->
+    </div> <!-- code-panel -->
 
     <div class="ui-layout-south">
       Build output:

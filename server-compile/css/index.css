@@ -1,3 +1,14 @@
 body {
-  padding-top: 60px;
+}
+
+div.notification.alert.alert-info {
+  margin-bottom: 0;
+}
+
+.navbar {
+  margin-bottom: 5px;
+}
+
+.well {
+  margin-bottom: 5px;
 }

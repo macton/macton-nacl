@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -45,16 +44,60 @@
     </div> <!-- north -->
 
     <div class="ui-layout-center code-panel">
-      <div id="source-code-container"></div>
-    </div> <!-- code-panel -->
 
-    <div class="ui-layout-south">
-      Build output:
-      <pre id="make_output"></pre>
+      <div class="edit-container">
+       <div id="source-code-display"></div>
+      </div>
 
-      NaCl Module output:
-      <pre id="output"></pre>
-    </div> <!-- south -->
+      <div class="live-container" style="display:none;">
+        <ul class="nav nav-tabs" id="output-tabs">
+          <li><a href="#source-code-container"  data-toggle="tab">Code</a></li>
+          <li><a href="#build-output-container" data-toggle="tab">Build Output</a></li>
+          <li><a href="#nexe-output-container"  data-toggle="tab">Nexe Output</a></li>
+          <li><a href="#tweak-container"        data-toggle="tab">Tweaks</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="source-code-container" class="tab-pane">
+          </div>
+  
+          <div id="build-output-container" class="tab-pane">
+            <div id="make-output"></div>
+          </div>
+    
+          <div id="nexe-output-container" class="tab-pane">
+           <div id="nexe-output"></div>
+          </div>
+
+          <div id="tweak-container" class="tab-pane">
+            <table id="tweaks" class="table table-bordered table-striped"></table>
+
+            <div class="well">
+              <div class="btn" id="tweak-run-once">Run once</div>
+              <div class="btn" id="tweak-run-30Hz">Run 30Hz</div>
+              <div class="btn" id="tweak-stop" style="display:none;">Stop</div>
+            </div>
+
+            <div class="tab-content">
+              <ul class="nav nav-tabs" id="tweak-tabs">
+                <li><a href="#tweak-code-container"   data-toggle="tab">Tweak Code</a></li>
+                <li><a href="#tweak-output-container" data-toggle="tab">Tweak Output</a></li>
+              </ul>
+  
+              <div id="tweak-code-container" class="tab-pane">
+                <div id="tweak-code-display" class="well"></div>
+              </div>
+  
+              <div id="tweak-output-container" class="tab-pane">
+                <div id="tweak-output" class="well"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- center/code-panel -->
 
     <div class="ui-layout-east">
       <div id="nexe-display">
@@ -64,6 +107,7 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
     <script src="js/jquery.layout-latest.js"></script>
     <script src="js/jquery.autosize.js"></script>
     <script src="js/codemirror.js"></script>

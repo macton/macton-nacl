@@ -18,6 +18,8 @@
 #include <alloca.h>
 #include <stdio.h>
 
+#include "tweak.h"
+
 static void    RenderFrameStartup();
 static void    AudioCallback ( void* sample_buffer, uint32_t buffer_size_in_bytes, void* user_data );
 static int16_t TriangleWave ( int64_t counter, int32_t rate, int32_t freq, float amplitude );
@@ -210,14 +212,18 @@ void NaclRenderFrame()
   glClear ( GL_COLOR_BUFFER_BIT );
   glScissor ( 5, 5, g_NaclViewWidth - 10, g_NaclViewHeight - 10 );
 
-  float blue = 1.0f;
-  glClearColor ( 0.0f, 0.0f, blue, 1.0f );
+  TWEAK_FLOAT( red,   1.0f, "Background Red",   0.0f, 1.0f );
+  TWEAK_FLOAT( green, 1.0f, "Background Green", 0.0f, 1.0f );
+  TWEAK_FLOAT( blue,  0.0f, "Background Blue",  0.0f, 1.0f );
+
+  glClearColor ( red, green, blue, 1.0f );
   glClear ( GL_COLOR_BUFFER_BIT );
 
   // Draw a box under the cursor.  Need to flip vertically as gl expects
   // the origin to be the lower right corner.
+  
+  TWEAK_INT32( box_size, 40, "Box Size", 10, 100 );
 
-  const int32_t box_size = 40;
   int32_t       box_x    = g_CursorX - box_size / 2;
   int32_t       box_y    = g_NaclViewHeight - g_CursorY - box_size / 2;
 

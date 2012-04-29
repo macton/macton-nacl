@@ -176,6 +176,33 @@ PP_Bool PPP_InputEvent_HandleInputEvent( PP_Instance instance, PP_Resource input
 void PPP_Messaging_HandleMessage( PP_Instance instance, PP_Var message )
 {
   assert(instance == g_NaclInstanceId);
+
+  if ( message.type == PP_VARTYPE_STRING )
+  {
+    uint32_t    message_len;
+    const char* message_str = NaclVarVarToUtf8( message, &message_len );
+    float*      float_addr;
+    float       float_value;
+    int32_t*    int32_addr;
+    int32_t     int32_value;
+
+    int  match_float = sscanf( message_str, "$poke_float %p %f", (void**)&float_addr, &float_value );
+    if ( match_float )
+    {
+      *float_addr = float_value;
+      NaclMessagingPostPrintf( "(float*)%p = %g", float_addr, float_value);
+      return;
+    }
+
+    int  match_int32 = sscanf( message_str, "$poke_int32 %p %d", (void**)&int32_addr, &int32_value );
+    if ( match_int32 )
+    {
+      *int32_addr = int32_value;
+      NaclMessagingPostPrintf( "(int32_t*)%p = %d", int32_addr, int32_value);
+      return;
+    }
+  }
+
   NaclHandleMessage( message );
 }
 

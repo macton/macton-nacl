@@ -14,11 +14,10 @@
 //
 
 #include "nacl.h"
+#include "nacl_tweak.h"
 #include <string.h>
 #include <alloca.h>
 #include <stdio.h>
-
-#include "tweak.h"
 
 static void    RenderFrameStartup();
 static void    AudioCallback ( void* sample_buffer, uint32_t buffer_size_in_bytes, void* user_data );
@@ -212,20 +211,20 @@ void NaclRenderFrame()
   glClear ( GL_COLOR_BUFFER_BIT );
   glScissor ( 5, 5, g_NaclViewWidth - 10, g_NaclViewHeight - 10 );
 
-  TWEAK_FLOAT( red,   1.0f, "Background Red",   0.0f, 1.0f );
-  TWEAK_FLOAT( green, 1.0f, "Background Green", 0.0f, 1.0f );
-  TWEAK_FLOAT( blue,  0.0f, "Background Blue",  0.0f, 1.0f );
+  TWEAK_FLOAT( red,   0.0f, "Red Background",   0.0f, 1.0f );
+  TWEAK_FLOAT( green, 0.0f, "Green Background", 0.0f, 1.0f );
+  TWEAK_FLOAT( blue,  1.0f, "Blue Background",  0.0f, 1.0f );
 
   glClearColor ( red, green, blue, 1.0f );
   glClear ( GL_COLOR_BUFFER_BIT );
 
   // Draw a box under the cursor.  Need to flip vertically as gl expects
   // the origin to be the lower right corner.
-  
-  TWEAK_INT32( box_size, 40, "Box Size", 10, 100 );
 
-  int32_t       box_x    = g_CursorX - box_size / 2;
-  int32_t       box_y    = g_NaclViewHeight - g_CursorY - box_size / 2;
+  TWEAK_INT32( box_size, 40, "Box Size", 5, 200 );
+  
+  int32_t box_x    = g_CursorX - box_size / 2;
+  int32_t box_y    = g_NaclViewHeight - g_CursorY - box_size / 2;
 
   glScissor ( box_x, box_y, box_size, box_size );
   glClearColor ( 1.0f, g_KeysPressed ? 1.0f : 0.0f, 0.0f, 1.0f );

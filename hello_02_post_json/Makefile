@@ -66,11 +66,9 @@ all: $(PROJECT)_x86_32.nexe $(PROJECT)_x86_64.nexe
 
 mariner.h: $(DDLT) mariner.ddl
 	$(DDLT) -i mariner.ddl -t nacl_hpp -o mariner.h
-	astyle mariner.h
 
 mariner.cpp: $(DDLT) mariner.ddl mariner.h JsonWriteScope.h
 	$(DDLT) -i mariner.ddl -t nacl_cpp -I mariner.h -I JsonWriteScope.h -o mariner.cpp
-	astyle mariner.cpp
 
 # Define 32 bit compile and link rules for C++ sources
 x86_32_CXX_OBJS:=$(patsubst %.cpp,%_32.o,$(CXX_SOURCES))

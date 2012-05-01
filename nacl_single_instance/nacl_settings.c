@@ -5,7 +5,7 @@
 
 const int32_t kNaclGraphicsAttribAlphaSize     = 8;
 const int32_t kNaclGraphicsAttribDepthSize     = 24;
-const int32_t kNaclGraphicsAttribStencilSize   = 8;
+const int32_t kNaclGraphicsAttribStencilSize   = 0;
 const int32_t kNaclGraphicsAttribSamples       = 0;
 const int32_t kNaclGraphicsAttribSampleBuffers = 0;
 

@@ -1,0 +1,11 @@
+unsigned long PDC_get_input_fd(void)
+void PDC_set_keyboard_binary(bool on)
+bool PDC_check_key(void)
+/* return the next available key or mouse event */
+int PDC_get_key(void)
+
+/* discard any pending keyboard or mouse input -- this is the core
+   routine for flushinp() */
+void PDC_flushinp(void)
+int PDC_mouse_set(void)
+int PDC_modifiers_set(void)
